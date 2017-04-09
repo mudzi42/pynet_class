@@ -30,7 +30,7 @@ TELNET_PORT = 23
 TELNET_TIMEOUT = 6
 
 def telnet_connect(ip_addr, TELNET_PORT, TELNET_TIMEOUT):
-    return telnetlib.Telnet(ip_addr, TELNET_PORT, TELNET_TIMEOUT)
+    return my_telnetlib.Telnet(ip_addr, TELNET_PORT, TELNET_TIMEOUT)
 
 def telnet_login():
     pass
