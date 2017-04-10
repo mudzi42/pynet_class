@@ -30,62 +30,57 @@ TELNET_TIMEOUT = 6
 
 def telnet_connect(ip_addr):
     '''
-    Establish telnet connection
+    telnet connection
     '''
+
     try:
         return telnetlib.Telnet(ip_addr, TELNET_PORT, TELNET_TIMEOUT)
     except socket.timeout:
-        print "Telnet connection timed out after {} seconds".format(TELNET_TIMEOUT)
-        sys.exit()
+        sys.exit("Telnet connection timed out after {} seconds".format(TELNET_TIMEOUT))
 
 def telnet_login(t_conn, username, password):
     '''
-    Login to network device
+    login to network device
     '''
-    output = t_conn.read_until("username:", TELNET_TIMEOUT)
-    print output
-    t_conn.write(username + '\n')
+
+    output = t_conn.read_until("sername:", TELNET_TIMEOUT)
+    send_command(t_conn, username)
     output += t_conn.read_until("assword:", TELNET_TIMEOUT)
-    print output
-    t_conn.write(password + '\n')
+    output += send_command(t_conn, password)
+
     return output
 
-def send_command():
+def send_command(t_conn, cmd):
     '''
-    Send a command down the telnet channel
-    Return the response
-'''
+    send a command down the telnet connection
+    '''
 
-    pass
+    t_conn.write(cmd.rstrip() + '\n')
+    sleep(1)
 
-def disable_paging():
+    return t_conn.read_very_eager()
+
+def disable_paging(t_conn, cmd='terminal length 0'):
     '''
-    Disable the paging of output (i.e. --More--)
+    disable the paging of output
     '''
-    pass
+
+    return send_command(t_conn, cmd)
+
 def main():
-    '''
-    Write a script that connects to the lab pynet-rtr1, logins, and executes the
-    'show ip int brief' command.
-    '''
     ip_addr = '184.105.247.70'
     username = 'pyclass'
     password = '88newclass'
+
     t_conn = telnet_connect(ip_addr)
-    output = telnet_login(t_conn, username, password)
-    sleep(1)
-    output += t_conn.read_very_eager()
-    print output 
-    t_conn.write('terminal length 0' + '\n')
-    t_conn.write('sh ip int br' + '\n')
-    sleep(1)
-    output += t_conn.read_very_eager()
+    telnet_login(t_conn, username, password)
+
+    disable_paging(t_conn)
+    output = send_command(t_conn, 'sh ip int br')
+
     print "\n\n"
     print output
     print "\n\n"
-    #remote_conn.read_until( < string_pattern >, TELNET_TIMEOUT)
-    #remote_conn.read_very_eager()
-    #remote_conn.write( < command > + '\n')
     t_conn.close()
 
 if __name__ == '__main__':
