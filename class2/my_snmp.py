@@ -17,13 +17,13 @@ def main():
 
     for a_device in (pynet_rtr1, pynet_rtr2):
 
-        print "\n\n"
+        print "\n"
         for the_oid in (SYS_NAME, SYS_DESCR):
             snmp_data = snmp_get_oid(a_device, oid=the_oid)
             output = snmp_extract(snmp_data)
 
             print output
-        print "\n\n"
+        print "\n"
 
 if __name__ == "__main__":
     main()
