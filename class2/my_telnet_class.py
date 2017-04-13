@@ -65,6 +65,9 @@ class TelnetConn(object):
 
         return send_command(self.t_conn, cmd)
 
+    def telnet_close(self):
+        self.tconn.close()
+
 
 def main():
     ip_addr = '184.105.247.70'
