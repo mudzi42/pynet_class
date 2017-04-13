@@ -29,7 +29,7 @@ class TelnetConn(object):
 
 
         try:
-            self.tconn = telnetlib.Telnet(self.ip_addr, TELNET_PORT, TELNET_TIMEOUT)
+            self.t_conn = telnetlib.Telnet(self.ip_addr, TELNET_PORT, TELNET_TIMEOUT)
         except socket.timeout:
             sys.exit("Telnet connection timed out after {} seconds".format(TELNET_TIMEOUT))
 
@@ -40,9 +40,9 @@ class TelnetConn(object):
         '''
 
         output = self.t_conn.read_until("sername:", TELNET_TIMEOUT)
-        send_command(self.t_conn, self.username)
+        self.send_command(self.username)
         output += self.t_conn.read_until("assword:", TELNET_TIMEOUT)
-        output += self.send_command(self.t_conn, self.password)
+        output += self.send_command(self.password)
 
         return output
 
@@ -51,8 +51,8 @@ class TelnetConn(object):
         '''
         send a command down the telnet connection
         '''
-
-        self.t_conn.write(cmd.rstrip() + '\n')
+        cmd = cmd.rstrip()
+        self.t_conn.write(cmd + '\n')
         sleep(sleep_time)
 
         return self.t_conn.read_very_eager()
@@ -63,10 +63,10 @@ class TelnetConn(object):
         disable the paging of output
         '''
 
-        return send_command(self.t_conn, cmd)
+        return self.send_command(cmd)
 
     def telnet_close(self):
-        self.tconn.close()
+        self.t_conn.close()
 
 
 def main():
@@ -83,7 +83,7 @@ def main():
     print "\n\n"
     print output
     print "\n\n"
-    t_conn.close()
+    t_conn.telnet_close()
 
 if __name__ == '__main__':
     main()
