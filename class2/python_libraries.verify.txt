@@ -1,0 +1,15 @@
+"""
+1a. Make sure that you have PySNMP and Paramiko installed in the lab
+ (i.e. enter the Python shell and test 'import pysnmp', and 'import paramiko').
+
+1b. Determine which version of PySNMP and Paramiko are installed.
+ dir(pysnmp) and dir(paramiko) should be helpful here.
+"""
+
+>>> import pysnmp
+>>> pysnmp.__version__
+'4.3.5'
+
+>>> import paramiko
+>>> paramiko.__version__
+'2.1.2'

@@ -1,0 +1,22 @@
+"""
+4. SNMP Basics
+
+    a. Create an 'SNMP' directory in your home directory.
+
+$ mkdir SNMP
+$ cd SNMP
+
+    b. Verify that you can import the snmp_helper library.
+    This is a small library that I created to simplify aspects of PySNMP.
+
+"""
+
+(applied_python)[chudgins@ip-172-30-0-251 ~]$ mkdir SNMP
+(applied_python)[chudgins@ip-172-30-0-251 ~]$ cd SNMP/
+(applied_python)[chudgins@ip-172-30-0-251 SNMP]$ ls
+(applied_python)[chudgins@ip-172-30-0-251 SNMP]$ python
+Python 2.7.12 (default, Sep  1 2016, 22:14:00)
+[GCC 4.8.3 20140911 (Red Hat 4.8.3-9)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import snmp_helper
+>>>

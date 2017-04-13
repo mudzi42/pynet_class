@@ -1,0 +1,29 @@
+
+### my_func.py in the same directory as call_my_func.py
+(applied_python)[chudgins@ip-172-30-0-251 class2]$ ./call_my_func.py
+Hello python module World
+
+### Test with my_func.py in subdirectory test/
+(applied_python)[chudgins@ip-172-30-0-251 class2]$ mkdir test
+(applied_python)[chudgins@ip-172-30-0-251 class2]$ mv my_func.py test/
+(applied_python)[chudgins@ip-172-30-0-251 class2]$ rm *.pyc
+(applied_python)[chudgins@ip-172-30-0-251 class2]$ ./call_my_func.py
+Traceback (most recent call last):
+  File "./call_my_func.py", line 16, in <module>
+    from my_func import print_hello
+ImportError: No module named my_func
+
+(applied_python)[chudgins@ip-172-30-0-251 class2]$ pwd
+/home/chudgins/pynet_class/class2
+(applied_python)[chudgins@ip-172-30-0-251 class2]$ export PYTHONPATH='/home/chudgins/pynet_class/class2/test'
+(applied_python)[chudgins@ip-172-30-0-251 class2]$ ./call_my_func.py
+Hello python module World
+
+### Test with my_func.py in ~/applied_python/lib/python2.7/site-packages/
+(applied_python)[chudgins@ip-172-30-0-251 pynet_class]$ unset PYTHONPATH
+(applied_python)[chudgins@ip-172-30-0-251 pynet_class]$ cd test/
+(applied_python)[chudgins@ip-172-30-0-251 test]$ mv my_func.py ~/applied_python/lib/python2.7/site-packages/
+(applied_python)[chudgins@ip-172-30-0-251 test]$ cd ..
+(applied_python)[chudgins@ip-172-30-0-251 class2]$ rm -rf test
+(applied_python)[chudgins@ip-172-30-0-251 class2]$ ./call_my_func.py
+Hello python module World
