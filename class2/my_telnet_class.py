@@ -43,7 +43,8 @@ class TelnetConn(object):
         self.send_command(self.username)
         output += self.t_conn.read_until("assword:", TELNET_TIMEOUT)
         output += self.send_command(self.password)
-
+        self.send_command()
+         
         return output
 
 
@@ -51,6 +52,7 @@ class TelnetConn(object):
         '''
         send a command down the telnet connection
         '''
+        
         cmd = cmd.rstrip()
         self.t_conn.write(cmd + '\n')
         sleep(sleep_time)
@@ -66,6 +68,10 @@ class TelnetConn(object):
         return self.send_command(cmd)
 
     def telnet_close(self):
+        '''
+        close telnet connection
+        '''
+
         self.t_conn.close()
 
 
