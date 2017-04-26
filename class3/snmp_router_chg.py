@@ -62,6 +62,7 @@ def load_file(filepath):
 
     else:
         print "No file {} to load.".format(filepath)
+        return None
 
 def save_file(device, device_data, filepath):
     data = load_file(filepath)
@@ -74,11 +75,9 @@ def save_file(device, device_data, filepath):
             pickle.dump(data, file)
 
 def has_router_changed(snmp_data, router_data):
-    # print "snmp_data {}".format(snmp_data)
-    # print "router_data {}".format(router_data)
-
     if snmp_data['last_changed'] > router_data['last_changed']:
         return True
+
     elif snmp_data['uptime'] < router_data['uptime']:
         # reload has occurred
         # check if changed has happened since reload
@@ -107,6 +106,18 @@ def mail_notification(device):
     except Exception, e:
         print("Email notification failed to send for {} with error: {}.".format(device, e))
 
+def run_first_time(filepath):
+    if not os.path.isfile(filepath):
+        data = {'pynet_rtr2': {'uptime': 0, 'last_changed': 0},
+                'pynet_rtr1': {'uptime': 0, 'last_changed': 0}}
+
+        with open(filepath, 'w') as file:
+            if FILE_TYPE == 'yaml_file':
+                yaml.dump(data, file, default_flow_style=False)
+            else:
+                pickle.dump(data, file)
+
+
 def main():
     a_user = 'pysnmp'
     auth_key = 'galileo1'
@@ -120,25 +131,17 @@ def main():
     pynet_rtr1 = ('184.105.247.70', 161)
     pynet_rtr2 = ('184.105.247.71', 161)
 
-    # for a_device in (pynet_rtr1, pynet_rtr2):
-    #
-    #     print "\n"
-    #     for the_oid in (SYS_NAME, SYS_DESCR, SYS_UPTIME, RUN_LAST_CHANGED):
-    #         snmp_data = snmp_get_oid_v3(a_device, snmp_user, oid=the_oid)
-    #         output = snmp_extract(snmp_data)
-    #
-    #         print output
-    #     print "\n"
-    #     return snmp_extract_output
+    for a_device in (pynet_rtr1, pynet_rtr2):
+        for the_oid in (SYS_NAME, SYS_DESCR, SYS_UPTIME, RUN_LAST_CHANGED):
+            snmp_data = snmp_get_oid_v3(a_device, snmp_user, oid=the_oid)
+            snmp_extract_output = snmp_extract(snmp_data)
 
+    #snmp_extract_output = {'pynet_rtr2': {'uptime': 2445540900, 'last_changed': 3045457714},
+    #                        'pynet_rtr1': {'uptime': 2575100104, 'last_changed': 3045681252}}
 
-    snmp_extract_output = {'pynet_rtr2': {'uptime': 2445540900, 'last_changed': 3045457714},
-     'pynet_rtr1': {'uptime': 2575100104, 'last_changed': 3045681252}}
+    run_first_time(router_file)
 
     router_info = load_file(router_file)
-    # print router_info
-    # print router_info['pynet_rtr1']
-    # print router_info['pynet_rtr2']
 
     for a_device in snmp_extract_output:
         if has_router_changed(snmp_extract_output[a_device], router_info[a_device]):
