@@ -29,7 +29,7 @@
     
 """
 
-#from snmp_helper import snmp_get_oid_v3, snmp_extract
+from snmp_helper import snmp_get_oid_v3, snmp_extract
 import os.path
 import email_helper
 import pickle
