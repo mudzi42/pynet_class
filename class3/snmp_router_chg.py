@@ -132,7 +132,8 @@ def main():
     pynet_rtr2 = ('184.105.247.71', 161)
 
     for a_device in (pynet_rtr1, pynet_rtr2):
-        for the_oid in (SYS_NAME, SYS_DESCR, SYS_UPTIME, RUN_LAST_CHANGED):
+
+        for the_oid in (SYS_NAME, SYS_UPTIME, RUN_LAST_CHANGED):
             snmp_data = snmp_get_oid_v3(a_device, snmp_user, oid=the_oid)
             snmp_extract_output = snmp_extract(snmp_data)
 
