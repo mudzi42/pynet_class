@@ -2,7 +2,6 @@
 
 """
 1. Use Paramiko to retrieve the entire 'show version' output from pynet-rtr2. 
-pynet-rtr2 host=184.105.247.71 port=22 username=pyclass password=88newclass
 
 """
 
@@ -10,25 +9,60 @@ __author__ = 'Chip Hudgins'
 __email__ = 'mudzi42@gmail.com'
 
 import paramiko
+from time import sleep
+import sys
 import class4_devices as devices
-import pprint as pp
+
+MAX_BUFFER = 65535
+
+def router_connect(device):
+    '''
+    paramiko connection
+    '''
+    # device information
+    ip = device['ip']
+    username = device['username']
+    password = device['secret']
+    port = device['port']
+    try:
+        p_conn_prep = paramiko.SSHClient()
+        p_conn_prep.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        p_conn_prep.connect(ip, username=username, password=password,
+                            look_for_keys=False, allow_agent=False, port=port)
+        p_conn = p_conn_prep.invoke_shell()
+        disable_paging(p_conn)
+        return p_conn
+    except Exception, e:
+        sys.exit("SSH connection to {} failed: {}".format(ip, e))
+
+def send_command(p_conn, cmd):
+    '''
+    send a command down the paramiko connection
+    '''
+    p_conn.send(cmd.rstrip() + '\n')
+    sleep(1)
+
+def disable_paging(p_conn, cmd='terminal length 0'):
+    '''
+    disable the paging on router via 'terminal length 0'
+    '''
+    send_command(p_conn, cmd)
+    clear_buffer(p_conn)
+
+def clear_buffer(p_conn):
+    '''
+    clear out any buffer in paramiko connection
+    '''
+    p_conn.recv(MAX_BUFFER)
+    sleep(1)
 
 def main():
-    print devices.pynet2
-    print devices.pynet2['username']
-    print devices.pynet2['port']
-    print devices.pynet2['ip']
-    print devices.pynet2['secret']
-
-    remote_connection = paramiko.SSHClient()
-    remote_connection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    remote_connection.connect(ip, username=devices.pynet2['username'], password=devices.pynet2['secret'],
-                              look_for_keys=False, allow_agent=False, port=devices.pynet2['port'])
-
-    remote_connection.invoke_shell()
-    remote_connection.send("show version")
-    output = remote_connection.recv(5000)
-    pp(output)
+    p_conn = router_connect(devices.pynet2)
+    send_command(p_conn, 'show version\n')
+    if p_conn.recv_ready():
+        print p_conn.recv(MAX_BUFFER)
+    else:
+        print "No output received from {}".format(devices.pynet2['ip'])
 
 if __name__ == '__main__':
     main()
