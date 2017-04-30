@@ -60,7 +60,7 @@ def send_command(expect_conn, prompt, cmd):
         expect_conn.expect(prompt)
         return expect_conn.before
     except pexpect.TIMEOUT, e:
-        print ("SSH connection timed out on {}: {}".format(ip, e))
+        print ("SSH connection timed out on {}: {}".format(devices.pynet2['ip'], e))
 
 def disable_paging(expect_conn, prompt, cmd='terminal length 0'):
     '''

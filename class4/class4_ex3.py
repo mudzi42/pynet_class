@@ -51,7 +51,7 @@ def main():
         expect_conn.expect(prompt)
         print expect_conn.before
     except pexpect.TIMEOUT, e:
-        print ("SSH connection timed out on {}: {}".format(ip, e))
+        print ("SSH connection timed out on {}: {}".format(devices.pynet2['ip'], e))
 
 if __name__ == '__main__':
     main()
