@@ -1,7 +1,19 @@
 #!/usr/bin/env python
 
 """
-1. Use Paramiko to retrieve the entire 'show version' output from pynet-rtr2. 
+2. Use Paramiko to change the 'logging buffered <size>' configuration on pynet-rtr2. 
+This will require that you enter into configuration mode.
+
+pynet-rtr2#sh run | in logging
+logging buffered 20000
+no logging console
+ logging synchronous
+
+pynet-rtr2#conf t
+pynet-rtr2(config)#logging buffered 20001
+pynet-rtr2(config)#end
+pynet-rtr2#sh run | in logging buffered
+logging buffered 20001
 
 """
 
@@ -24,7 +36,7 @@ def router_connect(device):
     username = device['username']
     password = device['password']
     port = device['port']
-    timeout = 6
+    timeout = 60
     try:
         p_conn_prep = paramiko.SSHClient()
         p_conn_prep.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -58,13 +70,21 @@ def clear_buffer(p_conn):
     p_conn.recv(MAX_BUFFER)
     sleep(1)
 
-def main():
-    p_conn = router_connect(devices.pynet2)
-    send_command(p_conn, 'show version\n')
+def print_router_output(p_conn, device):
     if p_conn.recv_ready():
         print p_conn.recv(MAX_BUFFER)
     else:
-        print "No output received from {}".format(devices.pynet2['ip'])
+        print "No output received from {}".format(device['ip'])
+
+def main():
+    p_conn = router_connect(devices.pynet2)
+    send_command(p_conn, 'show run | in logging buffered\n')
+    print_router_output(p_conn, devices.pynet2)
+    send_command(p_conn, 'conf t\n')
+    send_command(p_conn, 'logging buffered 20002\n')
+    send_command(p_conn, 'end\n')
+    send_command(p_conn, 'show run | in logging buffered\n')
+    print_router_output(p_conn, devices.pynet2)
 
 if __name__ == '__main__':
     main()
