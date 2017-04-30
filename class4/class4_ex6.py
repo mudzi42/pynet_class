@@ -18,19 +18,12 @@ def main():
     for device in pynet1, pynet2, juniper_srx:
         try:
             n_conn = ConnectHandler(**device)
-            print("Connected to {}.".format(device.hostname))
-            print("Config mode?")
-            print(pynet_rtr2.check_config_mode())
-            print("Entering config mode ...")
-            pynet_rtr2.config_mode()
-            print("Config mode?")
-            print(pynet_rtr2.check_config_mode())
-            print("Disconnecting from {}".format(hostname))
-            pynet_rtr2.disconnect()
-            print pynet_rtr2.send_command('sh run')
-
+            print("Connected to {}.".format(device['ip']))
+            n_conn.disable_paging()
+            print n_conn.send_command('show arp')
+            n_conn.disconnect()
         except Exception, e:
-            sys.exit("SSH connection to {} failed: {}".format(hostname, e))
+            sys.exit("SSH connection to {} failed: {}".format(device['ip'], e))
 
 if __name__ == '__main__':
     main()
