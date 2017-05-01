@@ -12,7 +12,7 @@ __author__ = 'Chip Hudgins'
 __email__ = 'mudzi42@gmail.com'
 
 import multiprocessing
-from netmiko
+import netmiko
 from netmiko.ssh_exception import NetMikoTimeoutException, NetMikoAuthenticationException
 import class4_devices as all_devices
 from datetime import datetime
