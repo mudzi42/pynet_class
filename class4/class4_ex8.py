@@ -21,7 +21,7 @@ from class4_devices import pynet1, pynet2
 import sys
 
 def main():
-    print("Updating  logging buffer size and disable console logging via file on pynet-rtr1 and pynet-rtr2.")
+    print("Updating logging buffer size and disable console logging via file on pynet-rtr1 and pynet-rtr2.")
     for device in pynet1, pynet2:
         try:
             n_conn = ConnectHandler(**device)
@@ -33,7 +33,7 @@ def main():
                 print("Checking for changes on {}...".format(device['ip']))
                 print n_conn.send_command('show run | in logging')
             print("Disconnecting from {}".format(device['ip']))
-            pynet_rtr2.disconnect()
+            n_conn.disconnect()
         except Exception, e:
             sys.exit("SSH connection to {} failed: {}".format(device['ip'], e))
 
