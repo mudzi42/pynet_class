@@ -24,3 +24,10 @@ juniper_srx = {
     'secret': '',
     'port': 22,
 }
+
+all_devices = [
+    pynet1,
+    pynet2,
+    juniper_srx,
+]
+

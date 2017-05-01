@@ -14,7 +14,7 @@ __email__ = 'mudzi42@gmail.com'
 import multiprocessing
 import netmiko
 from netmiko.ssh_exception import NetMikoTimeoutException, NetMikoAuthenticationException
-import class4_devices as all_devices
+from class4_devices import all_devices
 from datetime import datetime
 
 def print_output(results):
