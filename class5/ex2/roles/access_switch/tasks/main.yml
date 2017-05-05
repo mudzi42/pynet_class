@@ -1,0 +1,4 @@
+---
+- name: Generate configuration files
+  template: src=access_switch.j2 dest=//myStuff/Dropbox/Projects/PyNet_class/pynet_class/class5/ex2/CFG/{{item.hostname}}_access_switch.txt
+  with_items: "{{ routers }}"
