@@ -77,13 +77,11 @@ def save_file(device, device_data, filepath):
 def has_router_changed(snmp_data, router_data):
     if snmp_data['last_changed'] > router_data['last_changed']:
         return True
-
     elif snmp_data['uptime'] < router_data['uptime']:
         # reload has occurred
         # check if changed has happened since reload
         if snmp_data['last_changed'] >= RELOAD_WINDOW:
             return True
-
     return False
 
 def mail_notification(device):
@@ -137,20 +135,17 @@ def main():
             snmp_data = snmp_get_oid_v3(a_device, snmp_user, oid=the_oid)
             snmp_extract_output = snmp_extract(snmp_data)
 
-    #snmp_extract_output = {'pynet_rtr2': {'uptime': 2445540900, 'last_changed': 3045457714},
-    #                        'pynet_rtr1': {'uptime': 2575100104, 'last_changed': 3045681252}}
+        #snmp_extract_output = {'pynet_rtr2': {'uptime': 2445540900, 'last_changed': 3045457714},
+        #                        'pynet_rtr1': {'uptime': 2575100104, 'last_changed': 3045681252}}
+        run_first_time(router_file)
+        router_info = load_file(router_file)
 
-    run_first_time(router_file)
-
-    router_info = load_file(router_file)
-
-    for a_device in snmp_extract_output:
-        if has_router_changed(snmp_extract_output[a_device], router_info[a_device]):
-            mail_notification(a_device)
-            save_file(a_device, snmp_extract_output[a_device], router_file)
-
-        else:
-            print "No configuration changes detected on {}\n".format(a_device)
+        for a_device in snmp_extract_output:
+            if has_router_changed(snmp_extract_output[a_device], router_info[a_device]):
+                mail_notification(a_device)
+                save_file(a_device, snmp_extract_output[a_device], router_file)
+            else:
+                print "No configuration changes detected on {}\n".format(a_device)
 
 
 if __name__ == "__main__":
