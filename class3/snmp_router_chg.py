@@ -67,7 +67,7 @@ def load_devices(filepath):
         return {}
 
 def save_device(device, device_data, filepath):
-    data = load_file(filepath)
+    data = load_devices(filepath)
     data[device] = device_data
 
     with open(filepath, 'w') as file:
