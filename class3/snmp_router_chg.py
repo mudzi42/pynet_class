@@ -198,10 +198,10 @@ def main():
             print "saving new device"
             save_device(device_name, {'uptime': uptime, 'last_changed': last_changed}, router_file)
 
-    # Write the devices to pickle file
-    with open(net_dev_file, 'w') as f:
-        for dev_obj in current_devices.values():
-            pickle.dump(dev_obj, f)
+    # # Write the devices to pickle file
+    # with open(net_dev_file, 'w') as f:
+    #     for dev_obj in current_devices.values():
+    #         pickle.dump(dev_obj, f)
 
     print
 
