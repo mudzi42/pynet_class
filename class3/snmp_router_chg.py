@@ -66,9 +66,10 @@ def load_devices(filepath):
         print "No devices in {} to load.".format(filepath)
         return {}
 
-def save_device(device, device_data, filepath):
+def save_devices(devices_dict, filepath):
     data = load_devices(filepath)
-    data[device] = device_data
+    for device in devices_dict:
+        data[device] = devices_dict[device]
 
     with open(filepath, 'w') as file:
         if FILE_TYPE == 'yaml_file':
@@ -151,8 +152,8 @@ def main():
     print "Checking for router changes ..."
     saved_devices = load_devices(router_file)
 
-    # # Temporarily store the current devices in a dictionary
-    current_devices = {}
+    # Temporarily store the current devices in a dictionary
+    devices = {}
 
     # Connect to each device / retrieve last_changed time
     for a_device in (pynet_rtr1, pynet_rtr2):
@@ -180,30 +181,26 @@ def main():
                     print "DEVICE RELOADED...not changed"
                 else:
                     print "DEVICE RELOADED...and changed"
-                    save_device(device_name, {'uptime': uptime, 'last_changed': last_changed}, router_file)
-                    mail_notification(current_devices[device_name])
+                    devices[device_name] = {'uptime': uptime, 'last_changed': last_changed}
+                    mail_notification(devices[device_name])
             elif last_changed == saved_device.last_changed:
                 # running-config last_changed is the same
                 print "not changed"
             elif last_changed > saved_device.last_changed:
                 # running-config was modified
                 print "CHANGED"
-                save_device(device_name, {'uptime': uptime, 'last_changed': last_changed}, router_file)
-                mail_notification(current_devices[device_name])
+                devices[device_name] = {'uptime': uptime, 'last_changed': last_changed}
+                mail_notification(devices[device_name])
             else:
                 raise ValueError()
         else:
             # New device, just save it
             print "{0} {1}".format(device_name, (35 - len(device_name))*'.'),
             print "saving new device"
-            save_device(device_name, {'uptime': uptime, 'last_changed': last_changed}, router_file)
+            devices[device_name] = {'uptime': uptime, 'last_changed': last_changed}
 
-    # # Write the devices to pickle file
-    # with open(net_dev_file, 'w') as f:
-    #     for dev_obj in current_devices.values():
-    #         pickle.dump(dev_obj, f)
-
-    print
+    # Write the devices to file
+    save_devices(devices, filepath)
 
 if __name__ == "__main__":
     main()
