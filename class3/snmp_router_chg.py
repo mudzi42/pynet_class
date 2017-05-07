@@ -58,10 +58,8 @@ def load_devices(filepath):
             else:
                 router_data = pickle.load(file)
             file.close()
-
         print "{0} devices were previously saved\n".format(len(router_data))
         return router_data
-
     else:
         print "No devices in {} to load.".format(filepath)
         return {}
@@ -145,10 +143,8 @@ def main():
         router_file = "router_change.yml"
     else:
         router_file = "router_change.pkl"
-
     pynet_rtr1 = ('184.105.247.70', 161)
     pynet_rtr2 = ('184.105.247.71', 161)
-
     print "Checking for router changes ..."
     saved_devices = load_devices(router_file)
 
@@ -177,17 +173,17 @@ def main():
             print "{0} {1}".format(device_name, (35 - len(device_name))*'.'),
 
             # Check for a reboot (did uptime decrease or last_changed decrease?)
-            if uptime < saved_device.uptime or last_changed < saved_device.last_changed:
+            if uptime < saved_device['uptime'] or last_changed < saved_device['last_changed']:
                 if last_changed <= RELOAD_WINDOW:
                     print "DEVICE RELOADED...not changed"
                 else:
                     print "DEVICE RELOADED...and changed"
                     devices[device_name] = {'uptime': uptime, 'last_changed': last_changed}
                     mail_notification(devices[device_name])
-            elif last_changed == saved_device.last_changed:
+            elif last_changed == saved_device['last_changed']:
                 # running-config last_changed is the same
                 print "not changed"
-            elif last_changed > saved_device.last_changed:
+            elif last_changed > saved_device['last_changed']:
                 # running-config was modified
                 print "CHANGED"
                 devices[device_name] = {'uptime': uptime, 'last_changed': last_changed}
