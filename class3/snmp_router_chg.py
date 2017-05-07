@@ -46,7 +46,7 @@ RUN_LAST_CHANGED = '1.3.6.1.4.1.9.9.43.1.1.1.0'
 RELOAD_WINDOW = 300 * 100
 
 # YAML or PICKLE file? 'yaml_file' or 'pickle_file'
-FILE_TYPE = 'yaml_file'
+FILE_TYPE = 'pickle_file'
 
 DEBUG = True
 
@@ -75,16 +75,6 @@ def save_devices(devices_dict, filepath):
         else:
             pickle.dump(data, file)
 
-# def has_router_changed(snmp_data, router_data):
-#     if snmp_data['last_changed'] > router_data['last_changed']:
-#         return True
-#     elif snmp_data['uptime'] < router_data['uptime']:
-#         # reload has occurred
-#         # check if changed has happened since reload
-#         if snmp_data['last_changed'] >= RELOAD_WINDOW:
-#             return True
-#     return False
-
 def mail_notification(device):
     recipient = 'mudzi42@gmail.com'
     sender = 'mudzi42@gmail.com'
@@ -105,35 +95,6 @@ def mail_notification(device):
     except Exception, e:
         print("Email notification failed to send for {} with error: {}.".format(device, e))
 
-#     '''
-#     Send email notification regarding modified device
-#     '''
-#
-#     current_time = datetime.now()
-#
-#     sender = 'sender@twb-tech.com'
-#     recipient = 'recipient@twb-tech.com'
-#     subject = 'Device {0} was modified'.format(net_device.device_name)
-#
-#     message = '''
-# The running configuration of {0} was modified.
-# This change was detected at: {1}
-# '''.format(net_device.device_name, current_time)
-#
-#     if send_mail(recipient, subject, message, sender):
-#         print 'Email notification sent to {}'.format(recipient)
-#         return True
-
-# def get_snmp_data(snmp_user, routers):
-#     snmp_extract_output = {}
-#     for a_device in routers:
-#         for the_oid in (SYS_NAME, SYS_UPTIME, RUN_LAST_CHANGED):
-#             snmp_data = snmp_get_oid_v3(a_device, snmp_user, oid=the_oid)
-#             snmp_extract_output.append(snmp_extract(snmp_data))
-#     return snmp_extract_output
-#     #return {'pynet_rtr2': {'uptime': 2445540900, 'last_changed': 3045457714},
-#     #                       'pynet_rtr1': {'uptime': 2575100104, 'last_changed': 3045681252}}
-
 def main():
     a_user = 'pysnmp'
     auth_key = 'galileo1'
@@ -148,10 +109,10 @@ def main():
     print "Checking for router changes ..."
     saved_devices = load_devices(router_file)
 
-    # Temporarily store the current devices in a dictionary
+    # current devices being checked
     devices = {}
 
-    # Connect to each device / retrieve last_changed time
+    # Connect to devices via SNMP and  retrieve last_changed time
     for a_device in (pynet_rtr1, pynet_rtr2):
         snmp_results = []
         for oid in (SYS_NAME, SYS_UPTIME, RUN_LAST_CHANGED):
