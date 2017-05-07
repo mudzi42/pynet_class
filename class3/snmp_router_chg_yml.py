@@ -46,7 +46,7 @@ RUN_LAST_CHANGED = '1.3.6.1.4.1.9.9.43.1.1.1.0'
 RELOAD_WINDOW = 300 * 100
 
 # YAML or PICKLE file? 'yaml_file' or 'pickle_file'
-FILE_TYPE = 'pickle_file'
+FILE_TYPE = 'yaml_file'
 
 DEBUG = True
 
