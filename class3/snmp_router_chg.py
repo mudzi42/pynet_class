@@ -164,7 +164,8 @@ def main():
                 snmp_results.append(int(value))
             except ValueError:
                 snmp_results.append(value)
-        device_name, uptime, last_changed = snmp_results
+        fqdn_name, uptime, last_changed = snmp_results
+        device_name = fqdn_name.split('.')[0]
         if DEBUG:
             print "\nConnected to device = {0}".format(device_name)
             print "Last changed timestamp = {0}".format(last_changed)
@@ -200,7 +201,7 @@ def main():
             devices[device_name] = {'uptime': uptime, 'last_changed': last_changed}
 
     # Write the devices to file
-    save_devices(devices, filepath)
+    save_devices(devices, router_file)
 
 if __name__ == "__main__":
     main()
