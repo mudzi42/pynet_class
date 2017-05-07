@@ -165,7 +165,7 @@ def main():
             except ValueError:
                 snmp_results.append(value)
         fqdn_name, uptime, last_changed = snmp_results
-        device_name = fqdn_name.split('.')[0]
+        device_name = str(fqdn_name.split('.')[0])
         if DEBUG:
             print "\nConnected to device = {0}".format(device_name)
             print "Last changed timestamp = {0}".format(last_changed)
