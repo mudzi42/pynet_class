@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 """
+** Due to time, I copied most of this from ktbyers.
+
    1. Using SNMPv3 create a script that detects router configuration changes.
    
    If the running configuration has changed, then send an email notification to yourself identifying the router
