@@ -1,6 +1,6 @@
-pynet_rtr1:
-  last_changed: 2545681252
-  uptime: 2575031903
-pynet_rtr2:
-  last_changed: 2445457714
-  uptime: 2445472702
+!!python/unicode 'pynet-rtr1':
+  last_changed: 2744399856
+  uptime: 2751055444
+!!python/unicode 'pynet-rtr2':
+  last_changed: 2621491201
+  uptime: 2621496304
