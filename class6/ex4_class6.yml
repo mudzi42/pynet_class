@@ -1,0 +1,46 @@
+---
+#4. Use Ansible to restore your 'primary Ethernet interface' back to the following state
+# (or your secondary interface depending on which one you used):
+#description:  <none>
+#switchport mode: access
+#access VLAN: 1
+#trunk allowed VLANs: all
+#
+#Also use Ansible to remove the three VLANs that you configured.
+
+#OUTPUT
+
+#SWITCH
+
+- name: Class6 Exercise4
+  hosts: arista
+
+
+  tasks:
+    - name: configure Interface Ethernet7 for access mode, VLAN1
+      eos_switchport: name=Ethernet7 mode=access access_vlan=1 trunk_allowed_vlans=1-4094
+            username={{ eapi_username }}
+            password={{ eapi_password }}
+            host={{ eapi_hostname }}
+            port={{ eapi_port }}
+            transport=https
+
+    - name: remove Ethernet7 description
+      eos_interface: name=Ethernet7 description=''
+            username={{ eapi_username }}
+            password={{ eapi_password }}
+            host={{ eapi_hostname }}
+            port={{ eapi_port }}
+            transport=https
+
+    - name: Remove VLANs
+      eos_vlan: name={{item.name}} vlanid={{item.vlanid}} state=absent
+            username={{ eapi_username }}
+            password={{ eapi_password }}
+            host={{ eapi_hostname }}
+            port={{ eapi_port }}
+            transport=https
+      with_items:
+        - {vlan_name: red, vlan_id: 809}
+        - {vlan_name: white, vlan_id: 811}
+        - {vlan_name: black, vlan_id: 821}
