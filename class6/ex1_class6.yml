@@ -1,6 +1,32 @@
 ---
 # 1. For the VLAN IDs randomly pick three numbers between 100 and 999.
 
+#OUTPUT
+#(applied_python)[chudgins@ip-172-30-0-251 class6]$ ansible-playbook ex1_class6.yml
+#
+#PLAY [Class6 Exercise1] ********************************************************
+#
+#TASK [setup] *******************************************************************
+#ok: [pynet-sw3]
+#
+#TASK [create VLANs] ************************************************************
+#changed: [pynet-sw3] => (item={u'vlan_id': 809, u'vlan_name': u'red'})
+#changed: [pynet-sw3] => (item={u'vlan_id': 811, u'vlan_name': u'white'})
+#changed: [pynet-sw3] => (item={u'vlan_id': 821, u'vlan_name': u'black'})
+#
+#PLAY RECAP *********************************************************************
+#pynet-sw3                  : ok=2    changed=1    unreachable=0    failed=0
+
+#SWITCH
+#pynet-sw3#sh vlan
+#VLAN  Name                             Status    Ports
+#----- -------------------------------- --------- -------------------------------
+#1     default                          active    Cpu, Et1, Et2, Et3, Et4, Et5
+#                                                 Et6, Et7
+#809   red                              active
+#811   white                            active
+#821   black                            active
+
 - name: Class6 Exercise1
   hosts: arista
 
