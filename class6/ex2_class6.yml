@@ -12,8 +12,30 @@
 #  by SSH'ing into the switch. Reminder, do NOT use Ethernet1.
 
 #OUTPUT
+#(applied_python)[chudgins@ip-172-30-0-251 class6]$ ansible-playbook ex2_class6.yml
+#
+#PLAY [Class6 Exercise2] ********************************************************
+#
+#TASK [setup] *******************************************************************
+#ok: [pynet-sw3]
+#
+#TASK [Interface Ethernet7 description] *****************************************
+#changed: [pynet-sw3]
+#
+#TASK [switchport access mode Interface Ethernet7 and VLAN809 assignment] *******
+#changed: [pynet-sw3]
+#
+#PLAY RECAP *********************************************************************
+#pynet-sw3                  : ok=3    changed=2    unreachable=0    failed=0
 
 #SWITCH
+#pynet-sw3#sh run int Et7
+#interface Ethernet7
+#pynet-sw3#sh run int Et7
+#interface Ethernet7
+#   description *** IN USE ***
+#   switchport access vlan 809
+#pynet-sw3#
 
 - name: Class6 Exercise2
   hosts: arista
