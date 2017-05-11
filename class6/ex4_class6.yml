@@ -9,8 +9,50 @@
 #Also use Ansible to remove the three VLANs that you configured.
 
 #OUTPUT
+#(applied_python)[chudgins@ip-172-30-0-251 class6]$ ansible-playbook ex4_class6.yml
+#
+#PLAY [Class6 Exercise4] ********************************************************
+#
+#TASK [setup] *******************************************************************
+#ok: [pynet-sw3]
+#
+#TASK [configure Interface Ethernet7 for access mode, VLAN1] ********************
+#changed: [pynet-sw3]
+#
+#TASK [remove Ethernet7 description] ********************************************
+#changed: [pynet-sw3]
+#
+#TASK [Remove VLANs] ************************************************************
+#changed: [pynet-sw3] => (item={u'vlan_id': 809, u'vlan_name': u'red'})
+#changed: [pynet-sw3] => (item={u'vlan_id': 811, u'vlan_name': u'white'})
+#changed: [pynet-sw3] => (item={u'vlan_id': 821, u'vlan_name': u'black'})
+#
+#PLAY RECAP *********************************************************************
+#pynet-sw3                  : ok=4    changed=3    unreachable=0    failed=0
 
 #SWITCH
+#pynet-sw3#sh vlan
+#VLAN  Name                             Status    Ports
+#----- -------------------------------- --------- -------------------------------
+#1     default                          active    Cpu, Et1, Et2, Et3, Et4, Et5
+#                                                 Et6, Et7
+#809   red                              active
+#811   white                            active
+#821   black                            active
+#
+#pynet-sw3#sh run int Et7
+#interface Ethernet7
+#   description *** IN USE ***
+#   switchport access vlan 809
+#   switchport trunk allowed vlan 809,811,821
+#   switchport mode trunk
+#pynet-sw3#sh run int Et7
+#interface Ethernet7
+#pynet-sw3#sh vlan
+#VLAN  Name                             Status    Ports
+#----- -------------------------------- --------- -------------------------------
+#1     default                          active    Cpu, Et1, Et2, Et3, Et4, Et5
+#                                                 Et6, Et7
 
 - name: Class6 Exercise4
   hosts: arista
