@@ -1,0 +1,58 @@
+---
+#2. Use Ansible to configure your 'primary Ethernet interface' as follows:
+#
+#interface description: *** IN USE ***
+#switchport mode: access
+#VLAN: <one of the VLANs created in exercise1>
+#
+#Your 'primary Ethernet interface' is specified in your ~/ansible-hosts file.
+#
+#If your primary interface is already 'IN USE' (by someone else), then use your secondary interface
+# (once again specified in ~/ansible-hosts).  You can determine if an interface is already in use
+#  by SSH'ing into the switch. Reminder, do NOT use Ethernet1.
+
+#OUTPUT
+#(applied_python)[chudgins@ip-172-30-0-251 class6]$ ansible-playbook ex2_class6.yml
+#
+#PLAY [Class6 Exercise2] ********************************************************
+#
+#TASK [setup] *******************************************************************
+#ok: [pynet-sw3]
+#
+#TASK [Interface Ethernet7 description] *****************************************
+#changed: [pynet-sw3]
+#
+#TASK [switchport access mode Interface Ethernet7 and VLAN809 assignment] *******
+#changed: [pynet-sw3]
+#
+#PLAY RECAP *********************************************************************
+#pynet-sw3                  : ok=3    changed=2    unreachable=0    failed=0
+
+#SWITCH
+#pynet-sw3#sh run int Et7
+#interface Ethernet7
+#pynet-sw3#sh run int Et7
+#interface Ethernet7
+#   description *** IN USE ***
+#   switchport access vlan 809
+#pynet-sw3#
+
+- name: Class6 Exercise2
+  hosts: arista
+
+  tasks:
+    - name: Interface Ethernet7 description
+      eos_interface: name=Ethernet7 description="*** IN USE ***"
+            username={{ eapi_username }}
+            password={{ eapi_password }}
+            host={{ eapi_hostname }}
+            port={{ eapi_port }}
+            transport=https
+
+    - name: switchport access mode Interface Ethernet7 and VLAN809 assignment
+      eos_switchport: name=Ethernet7 mode=access access_vlan=809
+            username={{ eapi_username }}
+            password={{ eapi_password }}
+            host={{ eapi_hostname }}
+            port={{ eapi_port }}
+            transport=https

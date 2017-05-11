@@ -1,0 +1,35 @@
+---
+#5. Use the cisco_file_transfer.py module to transfer a small file to the Cisco pynet-rtr1 router.
+# will need
+# ansible-playbook <playbook_name> --module-path ~/ANSIBLE/library/
+
+#OUTPUT
+#(applied_python)[chudgins@ip-172-30-0-251 class6]$ ansible-playbook ex5_class6.yml --module-path ~/ANSIBLE/library/
+#
+#PLAY [Class6 Exercise5] ********************************************************
+#
+#TASK [File transfer] ***********************************************************
+#changed: [pynet-rtr1]
+#
+#PLAY RECAP *********************************************************************
+#pynet-rtr1                 : ok=1    changed=1    unreachable=0    failed=0
+
+#SWITCH
+#pynet-rtr1#dir | in ch
+#  102  -rw-          43  May 11 2017 16:34:50 -07:00  ch_file.txt
+
+- name: Class6 Exercise5
+  hosts: pynet-rtr1
+  gather_facts: False
+
+  tasks:
+  - name: File transfer
+    cisco_file_transfer:
+      source_file=ch_file.txt
+      dest_file=ch_file.txt
+      overwrite=true
+      enable_scp=true
+      host={{ host }}
+      port={{ port }}
+      username={{ username }}
+      password={{ password }}

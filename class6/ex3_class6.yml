@@ -1,0 +1,45 @@
+---
+#3. Use Ansible to configure your 'primary Ethernet interface' as follows:
+#
+#switchport mode: trunk
+#trunk native VLAN: VLAN1
+#trunk allowed VLANs: <the three VLANs created in exercise1>
+
+#OUTPUT
+#(applied_python)[chudgins@ip-172-30-0-251 class6]$ ansible-playbook ex3_class6.yml
+#
+#PLAY [Class6 Exercise3] ********************************************************
+#
+#TASK [setup] *******************************************************************
+#ok: [pynet-sw3]
+#
+#TASK [Configure Interface Ethernet7 to trunk] **********************************
+#changed: [pynet-sw3]
+#
+#PLAY RECAP *********************************************************************
+#pynet-sw3                  : ok=2    changed=1    unreachable=0    failed=0
+
+#SWITCH
+#pynet-sw3#sh run int Et7
+#interface Ethernet7
+#   description *** IN USE ***
+#   switchport access vlan 809
+#pynet-sw3#sh run int Et7
+#interface Ethernet7
+#   description *** IN USE ***
+#   switchport access vlan 809
+#   switchport trunk allowed vlan 809,811,821
+#   switchport mode trunk
+
+- name: Class6 Exercise3
+  hosts: arista
+
+  tasks:
+    - name: Configure Interface Ethernet7 to trunk
+      eos_switchport: name=Ethernet7 mode=trunk trunk_native_vlan=1 trunk_allowed_vlans=809,811,821
+            username={{ eapi_username }}
+            password={{ eapi_password }}
+            host={{ eapi_hostname }}
+            port={{ eapi_port }}
+            transport=https
+            transport=https
