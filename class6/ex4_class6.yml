@@ -34,7 +34,7 @@
             transport=https
 
     - name: Remove VLANs
-      eos_vlan: name={{item.name}} vlanid={{item.vlanid}} state=absent
+      eos_vlan: name={{item.vlan_name}} vlanid={{item.vlan_id}} state=absent
             username={{ eapi_username }}
             password={{ eapi_password }}
             host={{ eapi_hostname }}
