@@ -11,32 +11,20 @@ __author__ = 'Chip Hudgins'
 __email__ = 'mudzi42@gmail.com'
 
 import pyeapi
+from pprint import pprint
 
 def main():
-    """
-    username: eapi
-    password: ZZteslaX
-    host: 184.105.247.74
-    transport: https
-    """
-
-    arista_server_dict = dict(
-        ip='184.105.247.74',
-        port='8243',
-        username='eapi',
-        password='ZZteslaX',
-    )
+    DEBUG = True
 
     eapi_conn = pyeapi.connect_to("pynet-sw3")
 
     interfaces = eapi_conn.enable("show interfaces")
+    if DEBUG:
+        pprint(interfaces)
 
-    interfaces_data = interfaces[0]['interfaces']
-
-    # print results
-    pprint(interfaces)
-    pprint(interfaces_data)
-
+    interfaces_data = interfaces[0]['result']['interfaces']
+    if DEBUG:
+        pprint(interfaces_data)
 
 
     # get inOctets & outOctets
