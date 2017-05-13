@@ -14,6 +14,7 @@ import pyeapi
 from pprint import pprint
 
 def main():
+    # using DEBUG and pprint to see struction of returned data
     DEBUG = True
 
     eapi_conn = pyeapi.connect_to("pynet-sw3")
@@ -26,10 +27,6 @@ def main():
     if DEBUG:
         pprint(interfaces_data)
 
-
-    # get inOctets & outOctets
-    # eapi_results_interfaces[0]['interfaces']['Ethernet1']['interfaceCounters']['inOctets']
-    # eapi_results_interfaces[0]['interfaces']['Ethernet1']['interfaceCounters']['outOctets']
     interfaces_output_dict = {}
 
     for interface_name, interface_stats in interfaces_data.items():
@@ -37,8 +34,8 @@ def main():
         interfaces_output_dict[interface_name] = (
         interface_counters.get('inOctets'), interface_counters.get('outOctets'))
 
-    # Print
-    pprint(interfaces_output_dict)
+    if DEBUG:
+        pprint(interfaces_output_dict)
     print "\n{:20} {:<20} {:<20}".format("Interface:", "inOctets", "outOctets")
     for intf, octets in interfaces_output_dict.items():
         print "{:20} {:<20} {:<20}".format(intf, octets[0], octets[1])
