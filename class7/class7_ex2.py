@@ -23,7 +23,7 @@ __email__ = 'mudzi42@gmail.com'
 import pyeapi
 import argparse
 
-DEBUG = True
+DEBUG = False
 
 def check_if_vlan_exists(eapi_conn, vlan_id):
     vlan_id = str(vlan_id)
