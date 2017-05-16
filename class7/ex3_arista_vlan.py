@@ -18,7 +18,7 @@ __author__ = 'Chip Hudgins'
 __email__ = 'mudzi42@gmail.com'
 
 import pyeapi
-from class7_ex2 import check_vlan_exists, configure_vlan
+from class7_ex2 import check_if_vlan_exists, configure_vlan
 from ansible.module_utils.basic import *
 
 DEBUG = False
