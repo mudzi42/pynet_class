@@ -34,10 +34,11 @@ def check_if_vlan_exists(eapi_conn, vlan_id):
     try:
         response = eapi_conn.enable(commands_list)
         print response
-        # [{u'sourceDetail': u'', u'vlans': {u'817':
-        # {u'status': u'active', u'interfaces': {}, u'dynamic': False, u'name': u'ch_cheng'}}}]
+        # [{'command': 'show vlan id 817', 'result': {u'sourceDetail': u'', u'vlans': {
+        #     u'817': {u'status': u'active', u'interfaces': {}, u'dynamic': False, u'name': u'blue'}}},
+        #   'encoding': 'json'}]
         # response[0]['vlans']['817']['name']
-        check_vlan = response[0]['vlans']
+        check_vlan = response[0]['result']['vlans']
         if check_vlan.get(vlan_id) is not None:
             vlan_name = check_vlan[vlan_id]['name']
             return vlan_name
