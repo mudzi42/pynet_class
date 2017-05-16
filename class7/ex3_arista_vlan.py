@@ -38,10 +38,7 @@ def main():
     vlan_name = module.params.get('vlan_name')
     arista_sw = module.params.get('arista_sw')
 
-    eapi_conn = pyeapi.connect_to("pynet-sw3")
-
-    if DEBUG:
-        print("CLI ARGS: {}").format(cli_args)
+    eapi_conn = pyeapi.connect_to(arista_sw)
 
     # Check if VLAN exists
     check = check_if_vlan_exists(eapi_conn, vlan_id)
