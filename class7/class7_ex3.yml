@@ -21,4 +21,4 @@
 
   tasks:
     - name: create Arista VLANs
-      ex3_ansible_vlan: arista_sw={{ inventory_hostname }} vlan_id=807 vlan_name=red
+      class7_ex3: arista_sw={{ inventory_hostname }} vlan_id=807 vlan_name=red
