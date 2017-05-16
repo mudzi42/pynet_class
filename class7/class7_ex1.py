@@ -14,8 +14,8 @@ import pyeapi
 from pprint import pprint
 
 def main():
-    # using DEBUG and pprint to see struction of returned data
-    DEBUG = True
+    # using DEBUG and pprint to see structure of returned data
+    DEBUG = False
 
     eapi_conn = pyeapi.connect_to("pynet-sw3")
 
@@ -36,6 +36,7 @@ def main():
 
     if DEBUG:
         pprint(interfaces_output_dict)
+
     print "\n{:20} {:<20} {:<20}".format("Interface:", "inOctets", "outOctets")
     for intf, octets in interfaces_output_dict.items():
         print "{:20} {:<20} {:<20}".format(intf, octets[0], octets[1])
