@@ -29,10 +29,10 @@ def check_if_vlan_exists(eapi_conn, vlan_id):
     vlan_id = str(vlan_id)
     command_str = 'show vlan id {}'.format(vlan_id)
     print command_str
-    #commands_list = [command_str]
+    commands_list = [command_str]
 
     try:
-        response = eapi_conn.enable(commands_str)
+        response = eapi_conn.enable(commands_list)
         print response
         # [{u'sourceDetail': u'', u'vlans': {u'817':
         # {u'status': u'active', u'interfaces': {}, u'dynamic': False, u'name': u'ch_cheng'}}}]
