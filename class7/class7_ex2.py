@@ -28,16 +28,18 @@ DEBUG = True
 def check_if_vlan_exists(eapi_conn, vlan_id):
     vlan_id = str(vlan_id)
     command_str = 'show vlan id {}'.format(vlan_id)
-    print command_str
+    if DEBUG:
+        print command_str
     commands_list = [command_str]
 
     try:
         response = eapi_conn.enable(commands_list)
-        print response
-        # [{'command': 'show vlan id 817', 'result': {u'sourceDetail': u'', u'vlans': {
-        #     u'817': {u'status': u'active', u'interfaces': {}, u'dynamic': False, u'name': u'blue'}}},
-        #   'encoding': 'json'}]
-        # response[0]['vlans']['817']['name']
+        if DEBUG:
+            print response
+            # [{'command': 'show vlan id 817', 'result': {u'sourceDetail': u'', u'vlans': {
+            #     u'817': {u'status': u'active', u'interfaces': {}, u'dynamic': False, u'name': u'blue'}}},
+            #   'encoding': 'json'}]
+            # response[0]['vlans']['817']['name']
         check_vlan = response[0]['result']['vlans']
         if check_vlan.get(vlan_id) is not None:
             vlan_name = check_vlan[vlan_id]['name']
@@ -53,10 +55,12 @@ def configure_vlan(eapi_conn, vlan_id, vlan_name=None):
 
     command_vlan = 'vlan {}'.format(vlan_id)
     commands = [command_vlan]
-    print command_vlan
+    if DEBUG:
+        print command_vlan
 
     if vlan_id is not None:
-        print("name provided")
+        if DEBUG:
+            print("name provided")
         command_vlan_name = 'name {}'.format(vlan_name)
         commands.append(command_vlan_name)
 
