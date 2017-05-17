@@ -21,8 +21,6 @@ import pyeapi
 from class7_ex2 import check_if_vlan_exists, configure_vlan
 from ansible.module_utils.basic import *
 
-DEBUG = False
-
 def main():
 
     # Ansible
@@ -38,6 +36,9 @@ def main():
     vlan_name = module.params.get('vlan_name')
     arista_sw = module.params.get('arista_sw')
 
+    vlan_id = '807'
+    vlan_name = 'red'
+    arista_sw = "pynet-sw3"
     eapi_conn = pyeapi.connect_to(arista_sw)
 
     # Check if VLAN exists
@@ -47,11 +48,14 @@ def main():
         # name found
         if vlan_name is not None and check != vlan_name:
             configure_vlan(eapi_conn, vlan_id, vlan_name)
+            print("VLAN already exists, setting VLAN name")
             module.exit_json(msg="VLAN already exists, setting VLAN name", changed=True)
         else:
+            print("VLAN already exists, no action required")
             module.exit_json(msg="VLAN already exists, no action required", changed=False)
     else:
         configure_vlan(eapi_conn, vlan_id, vlan_name)
+        print("Adding VLAN including vlan_name (if present)")
         module.exit_json(msg="Adding VLAN including vlan_name (if present)", changed=True)
 
 if __name__ == '__main__':
