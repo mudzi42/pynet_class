@@ -24,21 +24,18 @@ from ansible.module_utils.basic import *
 def main():
 
     # Ansible
-    # module = AnsibleModule(
-    #     argument_spec=dict(
-    #         arista_sw=dict(required=True),
-    #         vlan_id=dict(required=True),
-    #         vlan_name=dict(required=False),
-    #     )
-    # )
-    #
-    # vlan_id = module.params['vlan_id']
-    # vlan_name = module.params.get('vlan_name')
-    # arista_sw = module.params.get('arista_sw')
+    module = AnsibleModule(
+        argument_spec=dict(
+            arista_sw=dict(required=True),
+            vlan_id=dict(required=True),
+            vlan_name=dict(required=False),
+        )
+    )
 
-    vlan_id = '807'
-    vlan_name = 'red'
-    arista_sw = "pynet-sw3"
+    vlan_id = module.params['vlan_id']
+    vlan_name = module.params.get('vlan_name')
+    arista_sw = module.params.get('arista_sw')
+
     eapi_conn = pyeapi.connect_to(arista_sw)
 
     # Check if VLAN exists
@@ -48,15 +45,12 @@ def main():
         # name found
         if vlan_name is not None and check != vlan_name:
             configure_vlan(eapi_conn, vlan_id, vlan_name)
-            print("VLAN already exists, setting VLAN name")
-            # module.exit_json(msg="VLAN already exists, setting VLAN name", changed=True)
+            module.exit_json(msg="VLAN already exists, setting VLAN name", changed=True)
         else:
-            print("VLAN already exists, no action required")
-            # module.exit_json(msg="VLAN already exists, no action required", changed=False)
+            module.exit_json(msg="VLAN already exists, no action required", changed=False)
     else:
         configure_vlan(eapi_conn, vlan_id, vlan_name)
-        print("Adding VLAN including vlan_name (if present)")
-        # module.exit_json(msg="Adding VLAN including vlan_name (if present)", changed=True)
+        module.exit_json(msg="Adding VLAN including vlan_name (if present)", changed=True)
 
 if __name__ == '__main__':
     main()

@@ -10,11 +10,6 @@
 #    http://docs.ansible.com/ansible/dev_guide/developing_modules_general.html
 #    The 'Common Module Boilerplate' section is important.
 
-#OUTPUT
-
-
-#SWITCH
-
 
 - name: Class7 Exercise3
   hosts: arista
