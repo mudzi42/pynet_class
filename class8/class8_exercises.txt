@@ -1,0 +1,48 @@
+​
+My solutions to these exercises are posted at:
+https://github.com/ktbyers/pynet/tree/master/pyth_ans_ecourse/class8
+
+See my above Django notes file for assistance on these exercises.
+You will need to use the lab environment for these exercises.
+
+
+1a. Initialize your Django database.
+ Add the seven NetworkDevice objects
+ and two Credentials objects into your database.  After this initialization,
+ you should be able to do the following (from the ~/DJANGOX/djproject directory):
+
+ $ python manage.py shell
+
+ >>> from net_system.models import NetworkDevice, Credentials
+ >>> net_devices = NetworkDevice.objects.all()
+ >>> net_devices
+ [<NetworkDevice: pynet-rtr1>, <NetworkDevice: pynet-sw1>, <NetworkDevice: pynet-sw2>,
+  <NetworkDevice: pynet-sw3>, <NetworkDevice: pynet-sw4>, <NetworkDevice: juniper-srx>,
+  <NetworkDevice: pynet-rtr2>]
+
+>>> creds = Credentials.objects.all()
+>>> creds
+
+[<Credentials: pyclass>, <Credentials: admin1>]
+
+1b. Update the NetworkDevice objects such that each NetworkDevice links to the correct Credentials.
+
+2. Set the vendor field of each NetworkDevice to the appropriate vendor.
+   Save this field to the database.
+
+3. Create two new test NetworkDevices in the database. Use both direct object creation and the
+   .get_or_create() method to create the devices.
+
+4. Remove the two objects created in the previous exercise from the database.
+
+5. Use Netmiko to connect to each of the devices in the database. Execute 'show version' on each device.
+   Calculate the amount of time required to do this.
+
+6. Use threads and Netmiko to execute 'show version' on each device in the database.
+   Calculate the amount of time required to do this. What is the difference in time between executing
+   'show version' sequentially versus using threads?
+
+7. Repeat exercise #6 except use processes.
+
+8. Optional bonus question--use a queue to get the output data back from the child processes
+   in question #7. Print this output data to the screen in the main process.

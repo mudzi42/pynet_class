@@ -1,0 +1,180 @@
+
+Initialize your Django database.
+/home/chudgins/DJANGOX/djproject/net_system
+vi models.py
+
+  1 from django.db import models
+  2
+  3 class Credentials(models.Model):
+  4     username        = models.CharField(max_length=50)
+  5     password        = models.CharField(max_length=50)
+  6     description     = models.CharField(max_length=200, blank=True, null=True)
+  7
+  8     def __unicode__(self):
+  9         return u'%s' % (self.username)
+ 10
+ 11     class Meta:
+ 12         verbose_name_plural = "Credentials"
+ 13
+ 14 class NetworkDevice(models.Model):
+ 15     device_name     = models.CharField(primary_key=True, max_length=80)
+ 16     device_type     = models.CharField(max_length=50)
+ 17     ip_address      = models.GenericIPAddressField()
+ 18     port            = models.IntegerField()
+ 19     vendor          = models.CharField(max_length=50, blank=True, null=True)
+ 20     model           = models.CharField(max_length=50, blank=True, null=True)
+ 21     os_version      = models.CharField(max_length=100, blank=True, null=True)
+ 22     serial_number   = models.CharField(max_length=50, blank=True, null=True)
+ 23     uptime_seconds  = models.IntegerField(blank=True, null=True)
+ 24     credentials     = models.ForeignKey(Credentials, blank=True, null=True)
+
+/home/chudgins/DJANGOX/djproject
+(applied_python)[chudgins@ip-172-30-0-251 djproject]$ python manage.py makemigrations
+Migrations for 'net_system':
+  0001_initial.py:
+    - Create model Credentials
+    - Create model NetworkDevice
+
+(applied_python)[chudgins@ip-172-30-0-251 djproject]$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: admin, contenttypes, net_system, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying net_system.0001_initial... OK
+  Applying sessions.0001_initial... OK
+(applied_python)[chudgins@ip-172-30-0-251 djproject]$
+
+
+(applied_python)[chudgins@ip-172-30-0-251 net_system]$ vi load_devices.py
+  1
+  2 from net_system.models import NetworkDevice
+  3 import django
+  4
+  5 def main():
+  6     django.setup()
+  7
+  8     pynet_rtr1 = NetworkDevice(
+  9         device_name='pynet-rtr1',
+ 10         device_type='cisco_ios',
+ 11         ip_address='184.105.247.70',
+ 12         port=22,
+ 13     )
+ 14     pynet_rtr1.save()
+ 15
+ 16     pynet_rtr2 = NetworkDevice.objects.get_or_create(
+ 17         device_name='pynet-rtr2',
+ 18         device_type='cisco_ios',
+ 19         ip_address='184.105.247.71',
+ 20         port=22,
+ 21     )
+ 22     print pynet_rtr2
+
+(applied_python)[chudgins@ip-172-30-0-251 net_system]$ vi load_credentials.py
+  1
+  2 from net_system.models import Credentials
+  3 import django
+  4
+  5
+  6 if __name__ == "__main__":
+  7
+  8     django.setup()
+  9
+ 10     std_creds = Credentials.objects.get_or_create(
+ 11         username = 'pyclass',
+ 12         password = '88newclass',
+ 13         description = 'Standard credentials'
+ 14     )
+ 15     print std_creds
+ 16
+ 17     arista_creds = Credentials.objects.get_or_create(
+ 18         username = 'admin1',
+ 19         password = '99saturday',
+ 20         description = 'Arista credentials'
+ 21     )
+ 22     print arista_creds
+
+
+(applied_python)[chudgins@ip-172-30-0-251 net_system]$ python load_devices.py
+(<NetworkDevice: pynet-rtr2>, True)
+(<NetworkDevice: pynet-sw1>, True)
+(<NetworkDevice: pynet-sw2>, True)
+(<NetworkDevice: pynet-sw3>, True)
+(<NetworkDevice: pynet-sw4>, True)
+(<NetworkDevice: juniper-srx>, True)
+
+(applied_python)[chudgins@ip-172-30-0-251 net_system]$ python load_credentials.py
+(<Credentials: pyclass>, True)
+(<Credentials: admin1>, True)
+
+(applied_python)[chudgins@ip-172-30-0-251 djproject]$ python manage.py shell
+Python 2.7.12 (default, Sep  1 2016, 22:14:00)
+[GCC 4.8.3 20140911 (Red Hat 4.8.3-9)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from net_system.models import NetworkDevice, Credentials
+>>> net_devices = NetworkDevice.objects.all()
+>>> net_devices
+[<NetworkDevice: pynet-rtr1>, <NetworkDevice: pynet-rtr2>, <NetworkDevice: pynet-sw1>, <NetworkDevice: pynet-sw2>, <NetworkDevice: pynet-sw3>, <NetworkDevice: pynet-sw4>, <NetworkDevice: juniper-srx>]
+>>> creds = Credentials.objects.all()
+>>> creds
+[<Credentials: pyclass>, <Credentials: admin1>]
+>>>
+>>> for a_device in net_devices:
+...   if 'pynet-sw' in a_device.device_name:
+...      a_device.credentials = arista_creds
+...   else:
+...      a_device.creadentials = std_creds
+...   a_device.save()
+...
+>>> for a_device in net_devices:
+...   print a_device, a_device.credentials
+...
+pynet-rtr1 None
+pynet-rtr2 None
+pynet-sw1 admin1
+pynet-sw2 admin1
+pynet-sw3 admin1
+pynet-sw4 admin1
+juniper-srx None
+>>> std_creds
+<Credentials: pyclass>
+>>> for a_device in net_devices:
+...   if not 'pynet-sw' in a_device.device_name:
+...      a_device.credentials = std_creds
+...   a_device.save()
+...
+>>> for a_device in net_devices:
+...   print a_device, a_device.credentials
+...
+pynet-rtr1 pyclass
+pynet-rtr2 pyclass
+pynet-sw1 admin1
+pynet-sw2 admin1
+pynet-sw3 admin1
+pynet-sw4 admin1
+juniper-srx pyclass
+
+>>> for a_device in net_devices:
+...   print a_device, a_device.device_type
+...
+pynet-rtr1 cisco_ios
+pynet-rtr2 cisco_ios
+pynet-sw1 arista_eos
+pynet-sw2 arista_eos
+pynet-sw3 arista_eos
+pynet-sw4 arista_eos
+juniper-srx juniper
