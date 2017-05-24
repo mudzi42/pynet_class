@@ -1,17 +1,10 @@
 #!/usr/bin/env python
 
 """
-2. Set the vendor field of each NetworkDevice to the appropriate vendor.
-   Save this field to the database.
+3. Create two new test NetworkDevices in the database. Use both direct object creation and the
+   .get_or_create() method to create the devices
 
-(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex1b.py
-pynet-rtr1 pyclass
-pynet-rtr2 pyclass
-pynet-sw1 admin1
-pynet-sw2 admin1
-pynet-sw3 admin1
-pynet-sw4 admin1
-juniper-srx pyclass
+
 """
 
 __author__ = 'Chip Hudgins'
@@ -22,20 +15,26 @@ from net_system.models import NetworkDevice, Credentials
 
 def main():
     django.setup()
+    router1 = NetworkDevice(
+        device_name='router1',
+        device_type='cumulus_linux',
+        ip_address='1.1.1.1',
+        port=1111,
+        vendor='Cumulus',
+    )
+    router1.save()
+
+    NetworkDevice.objects.get_or_create(
+        device_name='router2',
+        device_type='cumulus_linux',
+        ip_address='2.2.2.2',
+        port=2222,
+        vendor='Cumulus',
+    )
+
     net_devices = NetworkDevice.objects.all()
-
     for a_device in net_devices:
-        if 'cisco' in a_device.device_type:
-            a_device.vendor = 'Cisco'
-        elif 'juniper' in a_device.device_type:
-            a_device.vendor = 'Juniper'
-        elif 'arista' in a_device.device_type:
-            a_device.vendor = 'Arista'
-
-        a_device.save()
-
-    for a_device in net_devices:
-        print a_device, a_device.device_type
+        print a_device, a_device.vendor
 
 if __name__ == '__main__':
     main()

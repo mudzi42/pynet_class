@@ -35,7 +35,7 @@ def main():
         a_device.save()
 
     for a_device in net_devices:
-        print a_device, a_device.device_type
+        print a_device, a_device.vendor
 
 if __name__ == '__main__':
     main()
