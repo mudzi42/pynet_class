@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-1b. Update the NetworkDevice objects such that each NetworkDevice links to
- the correct Credentials.
+2. Set the vendor field of each NetworkDevice to the appropriate vendor.
+   Save this field to the database.
 
 (applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex1b.py
 pynet-rtr1 pyclass
@@ -21,24 +21,21 @@ import django
 from net_system.models import NetworkDevice, Credentials
 
 def main():
-    """Link credentials to devices"""
     django.setup()
     net_devices = NetworkDevice.objects.all()
-    creds = Credentials.objects.all()
-
-    std_creds = creds[0]
-    arista_creds = creds[1]
 
     for a_device in net_devices:
-        if 'pynet-sw' in a_device.device_name:
-            a_device.credentials = arista_creds
-        else:
-            a_device.credentials = std_creds
+        if 'cisco' in a_device.device_type:
+            a_device.vendor = 'Cisco'
+        elif 'juniper' in a_device.device_type:
+            a_device.vendor = 'Juniper'
+        elif 'arista' in a_device.device_type:
+            a_device.vendor = 'Arista'
+
         a_device.save()
 
     for a_device in net_devices:
-        print a_device, a_device.credentials
-
+        print a_device, a_device.device_type
 
 if __name__ == '__main__':
     main()
