@@ -4,7 +4,16 @@
 3. Create two new test NetworkDevices in the database. Use both direct object creation and the
    .get_or_create() method to create the devices
 
-
+(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex3.py
+pynet-rtr1 Cisco
+pynet-rtr2 Cisco
+pynet-sw1 Arista
+pynet-sw2 Arista
+pynet-sw3 Arista
+pynet-sw4 Arista
+juniper-srx Juniper
+router1 Cumulus
+router2 Cumulus
 """
 
 __author__ = 'Chip Hudgins'

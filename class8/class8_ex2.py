@@ -4,14 +4,14 @@
 2. Set the vendor field of each NetworkDevice to the appropriate vendor.
    Save this field to the database.
 
-(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex1b.py
-pynet-rtr1 pyclass
-pynet-rtr2 pyclass
-pynet-sw1 admin1
-pynet-sw2 admin1
-pynet-sw3 admin1
-pynet-sw4 admin1
-juniper-srx pyclass
+(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex2.py
+pynet-rtr1 Cisco
+pynet-rtr2 Cisco
+pynet-sw1 Arista
+pynet-sw2 Arista
+pynet-sw3 Arista
+pynet-sw4 Arista
+juniper-srx Juniper
 """
 
 __author__ = 'Chip Hudgins'
