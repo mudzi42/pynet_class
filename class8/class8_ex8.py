@@ -33,10 +33,11 @@ def main():
 
     start_time = datetime.now()
     net_devices = NetworkDevice.objects.all()
+    output_q = Queue(maxsize=20)
 
     procs = []
     for a_device in net_devices:
-        my_proc = Process(target=show_version, args=(a_device,))
+        my_proc = Process(target=show_version, args=(a_device, output_q))
         my_proc.start()
         procs.append(my_proc)
 

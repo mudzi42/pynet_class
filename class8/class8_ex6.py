@@ -5,6 +5,8 @@
    Calculate the amount of time required to do this. What is the difference in time between executing
    'show version' sequentially versus using threads?
 
+(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex6.py
+
 """
 
 __author__ = 'Chip Hudgins'
@@ -38,11 +40,11 @@ def main():
         my_thread = threading.Thread(target=show_version, args=(a_device,))
         my_thread.start()
 
-    # main_thread = threading.currentThread()
-    # for some_thread in threading.enumerate():
-    #     if some_thread != main_thread:
-    #         print some_thread
-    #         some_thread.join()
+    main_thread = threading.currentThread()
+    for some_thread in threading.enumerate():
+        if some_thread != main_thread:
+            print some_thread
+            some_thread.join()
 
     elapsed_time = datetime.now() - start_time
     print "Final elapsed time: {}".format(elapsed_time)
