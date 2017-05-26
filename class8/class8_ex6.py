@@ -35,7 +35,7 @@ def main():
     net_devices = NetworkDevice.objects.all()
 
     for a_device in net_devices:
-        my_thread = threading.Thread(target=show_version, args=(a_device))
+        my_thread = threading.Thread(target=show_version, args=(a_device,))
         my_thread.start()
 
     main_thread = threading.currentThread()
