@@ -3,6 +3,10 @@
 """
 8. Optional bonus question--use a queue to get the output data back from the child processes
    in question #7. Print this output data to the screen in the main process.
+   
+(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex8.py
+...   
+Final elapsed time: 0:00:13.378109   
 """
 
 __author__ = 'Chip Hudgins'
