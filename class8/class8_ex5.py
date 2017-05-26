@@ -5,6 +5,9 @@
    Calculate the amount of time required to do this.
 
 (applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex5.py
+...
+...
+
 Elapsed time: 0:00:48.645291
 
 """
@@ -38,7 +41,7 @@ def main():
         show_version(a_device)
 
     elapsed_time = datetime.now() - start_time
-    print "Elapsed time: {}".format(elapsed_time)
+    print "Final elapsed time: {}".format(elapsed_time)
 
 if __name__ == '__main__':
     main()
