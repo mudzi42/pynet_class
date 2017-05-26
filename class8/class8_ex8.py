@@ -1,17 +1,8 @@
 #!/usr/bin/env python
 
 """
-2. Set the vendor field of each NetworkDevice to the appropriate vendor.
-   Save this field to the database.
-
-(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex1b.py
-pynet-rtr1 pyclass
-pynet-rtr2 pyclass
-pynet-sw1 admin1
-pynet-sw2 admin1
-pynet-sw3 admin1
-pynet-sw4 admin1
-juniper-srx pyclass
+8. Optional bonus question--use a queue to get the output data back from the child processes
+   in question #7. Print this output data to the screen in the main process.
 """
 
 __author__ = 'Chip Hudgins'

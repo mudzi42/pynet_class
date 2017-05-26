@@ -1,17 +1,10 @@
 #!/usr/bin/env python
 
 """
-2. Set the vendor field of each NetworkDevice to the appropriate vendor.
-   Save this field to the database.
+6. Use threads and Netmiko to execute 'show version' on each device in the database.
+   Calculate the amount of time required to do this. What is the difference in time between executing
+   'show version' sequentially versus using threads?
 
-(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex1b.py
-pynet-rtr1 pyclass
-pynet-rtr2 pyclass
-pynet-sw1 admin1
-pynet-sw2 admin1
-pynet-sw3 admin1
-pynet-sw4 admin1
-juniper-srx pyclass
 """
 
 __author__ = 'Chip Hudgins'

@@ -1,17 +1,10 @@
 #!/usr/bin/env python
 
 """
-2. Set the vendor field of each NetworkDevice to the appropriate vendor.
-   Save this field to the database.
+5. Use Netmiko to connect to each of the devices in the database. Execute 'show version' on each device.
+   Calculate the amount of time required to do this.
 
-(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex1b.py
-pynet-rtr1 pyclass
-pynet-rtr2 pyclass
-pynet-sw1 admin1
-pynet-sw2 admin1
-pynet-sw3 admin1
-pynet-sw4 admin1
-juniper-srx pyclass
+
 """
 
 __author__ = 'Chip Hudgins'
@@ -19,23 +12,27 @@ __email__ = 'mudzi42@gmail.com'
 
 import django
 from net_system.models import NetworkDevice, Credentials
+from netmiko import ConnectHandler
+from datetime import datetime
+
+def show_version(a_device):
+    remote_conn = ConnectHandler(device_type=a_device.device_type,
+                                 ip=a_device.ip_address,
+                                 username=a_device.credentials.username,
+                                 password=a_device.credentials.password,
+                                 port=a_device.port, secret='')
+    print remote_conn.send_command_expect("show version")
 
 def main():
     django.setup()
+
+    start_time = datetime.now()
     net_devices = NetworkDevice.objects.all()
-
     for a_device in net_devices:
-        if 'cisco' in a_device.device_type:
-            a_device.vendor = 'Cisco'
-        elif 'juniper' in a_device.device_type:
-            a_device.vendor = 'Juniper'
-        elif 'arista' in a_device.device_type:
-            a_device.vendor = 'Arista'
+        show_version(a_device)
 
-        a_device.save()
-
-    for a_device in net_devices:
-        print a_device, a_device.device_type
+    elapsed_time = datetime.now() - start_time
+    print "Elapsed time: {}".format(elapsed_time)
 
 if __name__ == '__main__':
     main()
