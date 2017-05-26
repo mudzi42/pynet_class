@@ -2,6 +2,11 @@
 
 """
 7. Repeat exercise #6 except use processes.
+
+(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex7.py
+...
+<Process(Process-7, stopped)>
+Final elapsed time: 0:00:08.456718
 """
 
 __author__ = 'Chip Hudgins'

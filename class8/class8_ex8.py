@@ -10,23 +10,47 @@ __email__ = 'mudzi42@gmail.com'
 
 import django
 from net_system.models import NetworkDevice, Credentials
+from netmiko import ConnectHandler
+from datetime import datetime
+
+from multiprocessing import Process, Queue
+
+def show_version(a_device, output_q):
+    output_dict = {}
+    remote_conn = ConnectHandler(device_type=a_device.device_type,
+                                 ip=a_device.ip_address,
+                                 username=a_device.credentials.username,
+                                 password=a_device.credentials.password,
+                                 port=a_device.port, secret='')
+    output = '#' * 80
+    output += remote_conn.send_command_expect("show version")
+    output += '#' * 80
+    output_dict[a_device.device_name] = output
+    output_q.put(output_dict)
 
 def main():
     django.setup()
+
+    start_time = datetime.now()
     net_devices = NetworkDevice.objects.all()
 
+    procs = []
     for a_device in net_devices:
-        if 'cisco' in a_device.device_type:
-            a_device.vendor = 'Cisco'
-        elif 'juniper' in a_device.device_type:
-            a_device.vendor = 'Juniper'
-        elif 'arista' in a_device.device_type:
-            a_device.vendor = 'Arista'
+        my_proc = Process(target=show_version, args=(a_device,))
+        my_proc.start()
+        procs.append(my_proc)
 
-        a_device.save()
+    for a_proc in procs:
+        a_proc.join()
 
-    for a_device in net_devices:
-        print a_device, a_device.device_type
+    while not output_q.empty():
+        my_dict = output_q.get()
+        for k, val in my_dict.iteritems():
+            print k
+            print val
+
+    elapsed_time = datetime.now() - start_time
+    print "Final elapsed time: {}".format(elapsed_time)
 
 if __name__ == '__main__':
     main()
