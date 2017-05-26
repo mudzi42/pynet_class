@@ -4,6 +4,8 @@
 5. Use Netmiko to connect to each of the devices in the database. Execute 'show version' on each device.
    Calculate the amount of time required to do this.
 
+(applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex5.py
+Elapsed time: 0:00:48.645291
 
 """
 
@@ -21,7 +23,11 @@ def show_version(a_device):
                                  username=a_device.credentials.username,
                                  password=a_device.credentials.password,
                                  port=a_device.port, secret='')
+    print
+    print '#' * 80
     print remote_conn.send_command_expect("show version")
+    print '#' * 80
+    print
 
 def main():
     django.setup()
