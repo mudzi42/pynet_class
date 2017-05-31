@@ -6,6 +6,7 @@
    'show version' sequentially versus using threads?
 
 (applied_python)[chudgins@ip-172-30-0-251 class8]$ ./class8_ex6.py
+Final elapsed time: 0:20:05.866715 ?? something wrong here
 
 """
 
