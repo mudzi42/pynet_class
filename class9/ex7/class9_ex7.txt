@@ -1,0 +1,44 @@
+(pynet) chudgins-ltm1$ pwd
+/myStuff/Dropbox/Projects/PyNet_class/pynet_class/class9/ex7
+(pynet) chudgins-ltm1$ export PYTHONPATH=$PYTHONPATH:/myStuff/Dropbox/Projects/PyNet_class/pynet_class/class9/ex7
+(pynet) chudgins-ltm1$ echo $PYTHONPATH
+:/myStuff/Dropbox/Projects/PyNet_class/pynet_class/class9/ex7
+(pynet) chudgins-ltm1$ ipython
+Python 2.7.13 (default, Dec 17 2016, 23:03:43)
+Type "copyright", "credits" or "license" for more information.
+
+In [1]:  import sys
+
+In [2]: from pprint import pprint
+
+In [3]: pprint(sys.path)
+['',
+ '/Users/chudgins/.venvs/pynet/bin',
+ '/myStuff/Dropbox/Projects/PyNet_class/pynet_class/class9',
+ '/myStuff/Dropbox/Projects/PyNet_class/pynet_class/class9/ex7',
+ '/Users/chudgins/.venvs/pynet/lib/python27.zip',
+ '/Users/chudgins/.venvs/pynet/lib/python2.7',
+ '/Users/chudgins/.venvs/pynet/lib/python2.7/plat-darwin',
+ '/Users/chudgins/.venvs/pynet/lib/python2.7/plat-mac',
+ '/Users/chudgins/.venvs/pynet/lib/python2.7/plat-mac/lib-scriptpackages',
+ '/Users/chudgins/.venvs/pynet/lib/python2.7/lib-tk',
+ '/Users/chudgins/.venvs/pynet/lib/python2.7/lib-old',
+ '/Users/chudgins/.venvs/pynet/lib/python2.7/lib-dynload',
+ '/usr/local/Cellar/python/2.7.13/Frameworks/Python.framework/Versions/2.7/lib/python2.7',
+ '/usr/local/Cellar/python/2.7.13/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-darwin',
+ '/usr/local/Cellar/python/2.7.13/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk',
+ '/usr/local/Cellar/python/2.7.13/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac',
+ '/usr/local/Cellar/python/2.7.13/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac/lib-scriptpackages',
+ '/Users/chudgins/.venvs/pynet/lib/python2.7/site-packages',
+ '/Users/chudgins/.venvs/pynet/lib/python2.7/site-packages/IPython/extensions',
+ '/Users/chudgins/.ipython']
+
+In [4]: import mytest
+
+In [5]: mytest.__file__
+Out[5]: '/myStuff/Dropbox/Projects/PyNet_class/pynet_class/class9/ex7/mytest/__init__.pyc'
+
+
+
+
+

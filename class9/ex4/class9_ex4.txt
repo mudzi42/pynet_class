@@ -1,0 +1,9 @@
+(pynet) chudgins-ltm1$ python mytest/world.py
+world main
+Hello Goodbye, circa  1967
+You say goodbye (John Paul George and Ringo)
+and I say hello (John Paul George and Ringo)
+Hello, Hello
+
+
+

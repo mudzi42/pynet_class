@@ -1,0 +1,53 @@
+chudgins-ltm1$ ls
+class9_ex8.txt	mytest
+chudgins-ltm1$ pwd
+/myStuff/Dropbox/Projects/PyNet_class/pynet_class/class9/ex8
+chudgins-ltm1$ ipython
+Python 2.7.13 (default, Dec 17 2016, 23:03:43)
+Type "copyright", "credits" or "license" for more information.
+
+In [1]: from mytest import *
+
+In [2]: dir()
+Out[2]:
+['In',
+ 'MyClass',
+ 'Out',
+ '_',
+ '__',
+ '___',
+ '__builtin__',
+ '__builtins__',
+ '__doc__',
+ '__name__',
+ '__package__',
+ '_dh',
+ '_i',
+ '_i1',
+ '_i2',
+ '_ih',
+ '_ii',
+ '_iii',
+ '_oh',
+ '_sh',
+ 'exit',
+ 'func1',
+ 'func2',
+ 'func3',
+ 'get_ipython',
+ 'quit']
+
+In [3]: func1()
+world function
+
+In [4]: func2()
+simple function
+
+In [5]: func3()
+whatever function
+
+In [6]: song = MyClass('John', 'Pail', 'George', 'Ringo')
+
+In [7]: song.hello()
+and I say hello (John Pail George and Ringo)
+

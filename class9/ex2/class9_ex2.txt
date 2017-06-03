@@ -1,0 +1,39 @@
+(pynet) chudgins-ltm1$ ls
+class9_ex2.txt	mytest
+(pynet) chudgins-ltm1$ pwd
+/Projects/PyNet_class/pynet_class/class9/ex2
+(pynet) chudgins-ltm1$ ipython
+Python 2.7.13 (default, Dec 17 2016, 23:03:43)
+Type "copyright", "credits" or "license" for more information.
+
+In [1]: import mytest
+
+In [2]: mytest.simple
+Out[2]: <module 'mytest.simple' from 'mytest/simple.py'>
+
+In [3]: mytest.func1()
+world function
+
+In [4]: mytest.func2()
+simple function
+
+In [5]: mytest.func3()
+whatever function
+
+In [6]: exit
+(pynet) chudgins-ltm1$ ipython
+Python 2.7.13 (default, Dec 17 2016, 23:03:43)
+Type "copyright", "credits" or "license" for more information.
+
+In [1]: from mytest import func1, func2, func3
+
+In [2]: func1()
+world function
+
+In [3]: func2()
+simple function
+
+In [4]: func3()
+whatever function
+
+
