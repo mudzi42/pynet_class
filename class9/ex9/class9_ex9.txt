@@ -1,0 +1,8 @@
+export PYTHONPATH=/myStuff/Dropbox/Projects/PyNet_class/pynet_class/class9/ex8
+
+(pynet) chudgins-ltm1$ ./class9_ex9.py
+world function
+simple function
+whatever function
+You say goodbye (John Paul George and Ringo)
+and I say hello (John Paul George and Ringo)

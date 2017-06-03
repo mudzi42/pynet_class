@@ -1,0 +1,18 @@
+(pynet) chudgins-ltm1$ ipython
+Python 2.7.13 (default, Dec 17 2016, 23:03:43)
+Type "copyright", "credits" or "license" for more information.
+
+IPython 5.3.0 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]: import mytest
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+<ipython-input-1-39d1a25523aa> in <module>()
+----> 1 import mytest
+
+ImportError: No module named mytest
+
